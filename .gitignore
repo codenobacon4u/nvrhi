@@ -1,3 +1,7 @@
 build*/
 .vscode/
 nvapi/
+
+bin/
+bin-int/
+*.vcxproj*
