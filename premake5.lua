@@ -17,7 +17,7 @@ project "nvrhi"
 
         "src/validation/validation-commandlist.cpp",
         "src/validation/validation-device.cpp",
-        "src/validation/validation-backend.cpp",
+        "src/validation/validation-backend.h",
         "src/common/sparse-bitset.h",
         "src/common/sparse-bitset.cpp",
     }
@@ -28,6 +28,7 @@ project "nvrhi"
     }
 
     defines {
+        "_ITERATOR_DEBUG_LEVEL=1",
         "NVRHI_WITH_RTXMU=1",
         "NOMINMAX"
     }
@@ -44,6 +45,18 @@ project "nvrhi"
         files {
             "tools/nvrhi.natvis"
         }
+
+    filter "configurations:Debug"
+        runtime "Debug"
+        symbols "on"
+
+    filter "configurations:Release"
+        runtime "Release"
+        optimize "on"
+
+    filter "configurations:Dist"
+        runtime "Release"
+        optimize "on"
 
 project "nvrhi-vulkan"
     kind "StaticLib"
@@ -73,7 +86,9 @@ project "nvrhi-vulkan"
         "src/vulkan/vulkan-state-tracking.cpp",
         "src/vulkan/vulkan-texture.cpp",
         "src/vulkan/vulkan-upload.cpp",
-        "src/vulkan/vulkan-backend.h"
+        "src/vulkan/vulkan-backend.h",
+        "rtxmu/src/VkAccelStructManager.cpp",
+        "rtxmu/src/VulkanSuballocator.cpp",
     }
 
     VULKAN_SDK = os.getenv("VULKAN_SDK")
@@ -85,6 +100,7 @@ project "nvrhi-vulkan"
     }
 
     defines {
+        "_ITERATOR_DEBUG_LEVEL=1",
         "NVRHI_WITH_RTXMU=1",
         "NOMINMAX"
     }
@@ -93,6 +109,18 @@ project "nvrhi-vulkan"
         defines {
             "VK_USE_PLATFORM_WIN32_KHR"
         }
+
+    filter "configurations:Debug"
+        runtime "Debug"
+        symbols "on"
+
+    filter "configurations:Release"
+        runtime "Release"
+        optimize "on"
+
+    filter "configurations:Dist"
+        runtime "Release"
+        optimize "on"
 
 project "nvrhi-d3d11"
     kind "StaticLib"
@@ -125,9 +153,22 @@ project "nvrhi-d3d11"
     }
 
     defines {
+        "_ITERATOR_DEBUG_LEVEL=1",
         "NVRHI_WITH_RTXMU=1",
         "NOMINMAX"
     }
+
+    filter "configurations:Debug"
+        runtime "Debug"
+        symbols "on"
+
+    filter "configurations:Release"
+        runtime "Release"
+        optimize "on"
+
+    filter "configurations:Dist"
+        runtime "Release"
+        optimize "on"
 
 project "nvrhi-d3d12"
     kind "StaticLib"
@@ -157,7 +198,9 @@ project "nvrhi-d3d12"
         "src/d3d12/d3d12-shader.cpp",
         "src/d3d12/d3d12-state-tracking.cpp",
         "src/d3d12/d3d12-texture.cpp",
-        "src/d3d12/d3d12-upload.cpp"
+        "src/d3d12/d3d12-upload.cpp",
+        "rtxmu/src/D3D12AccelStructManager.cpp",
+        "rtxmu/src/D3D12Suballocator.cpp"
     }
 
     includedirs {
@@ -166,6 +209,19 @@ project "nvrhi-d3d12"
     }
 
     defines {
+        "_ITERATOR_DEBUG_LEVEL=1",
         "NVRHI_WITH_RTXMU=1",
         "NOMINMAX"
     }
+
+    filter "configurations:Debug"
+        runtime "Debug"
+        symbols "on"
+
+    filter "configurations:Release"
+        runtime "Release"
+        optimize "on"
+
+    filter "configurations:Dist"
+        runtime "Release"
+        optimize "on"
