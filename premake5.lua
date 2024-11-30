@@ -8,6 +8,13 @@ project "nvrhi"
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
+        "include/nvrhi/nvrhi.h",
+        "include/nvrhi/utils.h",
+        "include/nvrhi/common/containers.h",
+        "include/nvrhi/common/misc.h",
+        "include/nvrhi/common/resource.h",
+        "include/nvrhi/common/aftermath.h",
+
         "src/common/format-info.cpp",
         "src/common/misc.cpp",
         "src/common/state-tracking.cpp",
@@ -15,6 +22,7 @@ project "nvrhi"
         "src/common/utils.cpp",
         "src/common/aftermath.cpp",
 
+        "include/nvrhi/validation.h",
         "src/validation/validation-commandlist.cpp",
         "src/validation/validation-device.cpp",
         "src/validation/validation-backend.h",
@@ -35,8 +43,6 @@ project "nvrhi"
 
     links {
         "nvrhi-vulkan",
-        "nvrhi-d3d11",
-        "nvrhi-d3d12"
     }
 
     filter "system:windows"
@@ -44,6 +50,11 @@ project "nvrhi"
 
         files {
             "tools/nvrhi.natvis"
+        }
+
+        defines {
+            "nvrhi-d3d11",
+            "nvrhi-d3d12"
         }
 
     filter "configurations:Debug"
@@ -68,6 +79,8 @@ project "nvrhi-vulkan"
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
+        "include/nvrhi/nvrhi.h",
+
         "src/common/versioning.h",
         "src/vulkan/vulkan-allocator.cpp",
         "src/vulkan/vulkan-buffer.cpp",
@@ -87,6 +100,7 @@ project "nvrhi-vulkan"
         "src/vulkan/vulkan-texture.cpp",
         "src/vulkan/vulkan-upload.cpp",
         "src/vulkan/vulkan-backend.h",
+        
         "rtxmu/src/VkAccelStructManager.cpp",
         "rtxmu/src/VulkanSuballocator.cpp",
     }
@@ -122,6 +136,7 @@ project "nvrhi-vulkan"
         runtime "Release"
         optimize "on"
 
+if os.host() == "windows" then
 project "nvrhi-d3d11"
     kind "StaticLib"
     language "C++"
@@ -225,3 +240,4 @@ project "nvrhi-d3d12"
     filter "configurations:Dist"
         runtime "Release"
         optimize "on"
+end
